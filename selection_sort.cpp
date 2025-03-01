@@ -19,11 +19,24 @@ void swap(int *arr, int i, int j){
     arr[i] = arr[j];
     arr[j] = temp;
 }
-void selection_sort(int *arr, int n){
-    for(int k=0;k<n;k++){
-        int min = get_min(arr,k,n-1);
-        swap(arr,k,min);
-    }
+int selection_sort(const char* fname,int sz){
+        ifstream fp(fname);
+        int x[10000];
+        int num;
+        int i=0;
+        while (fp>>num){
+            x[i] = num;
+            i++;
+        }
+        auto start = high_resolution_clock::now();
+        for(int k=0;k<sz;k++){
+            int min = get_min(x,k,sz-1);
+            swap(x,k,min);
+        }
+        auto end = high_resolution_clock::now();
+        auto duration = duration_cast<milliseconds>(end - start);
+        fp.close();
+        return duration.count();
 }
 void print_array(int *arr, int n){
     for(int i=0;i<n;i++){
@@ -32,20 +45,11 @@ void print_array(int *arr, int n){
     cout << "\n";
 }
 int main(){
-    ifstream fp("random_numbers_2.txt");
-    int x[100000];
-    int num;
-    int i=0;
-    while (fp>>num){
-        x[i] = num;
-        i++;
+    int time[100];
+    for (int k = 1; k <= 100; k++){
+        string filename = "generated_num/random_numbers_" + to_string(k) + ".txt";
+        time[k-1] = selection_sort(filename.c_str(),10000);
     }
-    int sz = 100000;
-    auto start = high_resolution_clock::now();
-    selection_sort(x,sz);
-    auto end = high_resolution_clock::now();
-    auto duration = duration_cast<milliseconds>(end - start);
-    cout << "Time taken to sort: " << duration.count() << " milliseconds" << endl;
-    fp.close();
+    print_array(time,100);
     return 0;
 }

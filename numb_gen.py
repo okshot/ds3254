@@ -7,5 +7,5 @@ def generate_random_numbers(filename: str, num_values: int, min_value: int, max_
 
     print(f"Generated {num_values} random numbers and saved to {filename}")
 
-for i in range(1, 11):
-    generate_random_numbers(f"random_numbers_{i}.txt", 100000, 1, 100000)
+for i in range(1, 101):
+    generate_random_numbers(f"generated_num/random_numbers_{i}.txt", 10000, 1, 100000)
